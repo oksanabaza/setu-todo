@@ -7,6 +7,8 @@ function renderTodo(todo) {
   textCell.innerText = todo.text;
   const dateCell = row.insertCell(1);
   dateCell.innerText = todo.date;
+  const deleteCell = row.insertCell(2);
+  deleteCell.innerHTML = `<a onclick="deleteTodo('${todo.id}')" class="button">delete</a>`;
 }
 function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
@@ -23,4 +25,21 @@ function addTodo() {
   };
   todoItems.push(todo);
   renderTodo(todo);
+}
+function renderAllTodos() {
+  for (let i = 0; i < todoItems.length; i++) {
+    renderTodo(todoItems[i]);
+  }
+}
+function deleteAllTodos() {
+  let table = document.getElementById("todo-table");
+  for (let i = 0; i < todoItems.length; i++) {
+    table.deleteRow(-1);
+  }
+}
+function deleteTodo(id) {
+  deleteAllTodos();
+  const found = todoItems.findIndex((todo) => todo.id == id);
+  todoItems.splice(found, 1);
+  renderAllTodos();
 }
